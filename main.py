@@ -19,7 +19,7 @@ pygame.display.flip()
 
 # Variable to keep our game loop running
 running = True
-mapper = generator.better_random_gen((100, 100))
+mapper = generator.random_num_map((100, 100), 10)
 
 #mapper = generator.noise_generator(mapper, 0.1)
 
@@ -35,9 +35,10 @@ while running:
 
     pressed = pygame.key.get_pressed()
 
-    if pressed[pygame.K_SPACE]:
-        mapper = generator.thing_noise(mapper, .1, squarelike=False, dividing_factor=6)
-
+    if pressed[pygame.K_UP]:
+        mapper = generator.thing_noise(mapper, .01, squarelike=False, dividing_factor=6)
+    if pressed[pygame.K_DOWN]:
+        mapper = generator.thing_noise(mapper, -.01, squarelike=False, dividing_factor=6)
     square_HEIGHT = WINDOW_HIEGHT / len(mapper)
     square_WIDTH = WINDOW_WIDTH / len(mapper[0])
 
