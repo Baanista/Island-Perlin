@@ -2,6 +2,7 @@ import random
 import threading
 import pygame
 import math
+from PIL import Image, ImageDraw, ImageFont
 
 def random_num_map(size, seed):
     mapper = []
@@ -108,8 +109,27 @@ def create_noise(how_developed, seed, island_like, size, percent_change, dividin
     else:
         mapper = random_num_map(size, seed)
     for i in range(how_developed):
+        print('%', 100*(i / how_developed))
         #mapper = thing_noise(mapper, .01, squarelike=False, dividing_factor=6)
         mapper = thing_noise(mapper, percent_change, squarelike=False, dividing_factor=dividing_factor)
 
     return mapper
 
+def create_image(how_developed, seed, island_like, size, percent_change, dividing_factor):
+
+
+    mapper = create_noise(how_developed, seed, island_like, size, percent_change, dividing_factor)
+    im = Image.new(mode="RGB", size=(len(mapper), len(mapper[0])))
+
+    square_HEIGHT = len(mapper)
+    square_WIDTH = len(mapper[0])
+
+    for x in range(len(mapper)):
+        for y in range(len(mapper[0])):
+            if mapper[x][y] > 1:
+                im.putpixel((x, y), (255, 255, 255))
+
+            else:
+                im.putpixel((x, y), (int(255 * mapper[x][y]), int(255 * mapper[x][y]), int(255 * mapper[x][y])))
+
+    return im
